@@ -24,7 +24,7 @@ export default function Header({ title, back, notification, noOfNotification }) 
             <View style={styles.titleBox} >
                 {
                     (title.length > 0 && title != undefined) &&
-                    <Text numberOfLines={1} style={{ fontSize: Normalize(14), color: Colors.white, fontFamily: "Outfit-Medium", letterSpacing: Normalize(1) }} >My Music</Text>}
+                    <Text numberOfLines={1} style={{ fontSize: Normalize(14), color: Colors.white, fontFamily: "Outfit-Medium", letterSpacing: Normalize(1) }} >{title}</Text>}
             </View>
             <Pressable
                 disabled={!notification}

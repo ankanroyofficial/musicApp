@@ -12,3 +12,11 @@ export const storeLastSongid = async (val) => {
     let id = val.toString()
     await AsyncStorage.setItem('@lastsongSerialNo', id)
 }
+export const storemusicDetails = async (val) => {
+    let jsonValue = JSON.stringify(val)
+    await AsyncStorage.setItem('@musicDetails', jsonValue)
+}
+export const storeshow_currentTime = async (val) => {
+    let jsonValue = JSON.stringify(val)
+    await AsyncStorage.setItem('@show_currentTime', jsonValue)
+}

@@ -21,13 +21,15 @@ export default function SingleMusicCart({ details, onPressfav,onPressPlay }) {
                 }
             </View>
             <View style={{ flex: 1, paddingLeft: Normalize(8), paddingVertical: Normalize(5), flexDirection: "row" }} >
-                <View style={{ flex: 1 }} >
+                <Pressable
+                onPress={() => onPressPlay(details)}
+                style={{ flex: 1 }} >
                     <Text numberOfLines={1} style={{ fontSize: Normalize(11), fontFamily: "Outfit-Medium", color: Colors.violet, letterSpacing: Normalize(1) }} >{details.title}</Text>
                     <View style={{ flexDirection: "row", alignItems: "center", marginTop: Normalize(3) }} >
                         <Octicons name="book" color={Colors.violet} size={12} />
                         <Text numberOfLines={1} style={{ fontSize: Normalize(10), fontFamily: "Outfit-Regular", color: Colors.violet, marginLeft: Normalize(3), letterSpacing: Normalize(1) }} >Artist: {details.artist}</Text>
                     </View>
-                </View>
+                </Pressable>
 
                 {/* ****************fav******** */}
 

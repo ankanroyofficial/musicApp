@@ -4,13 +4,15 @@ import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { myContaxt } from '../../Constant/ContaxtPage'
 import { song } from '../../Constant/Constant'
+import SoundPlayer from 'react-native-sound-player'
 // import Lottie from 'lottie-react-native';
 
 export default function SplashScreen() {
 
-  const { allSong, setAllSong,
-    lastSongDetails, setLastSongDetails,
-    lastSongId, setLastSongId } = useContext(myContaxt)
+  const {allSong, setAllSong,
+    setLastSongDetails,
+    setLastSongId
+  } = useContext(myContaxt)
 
   const navigation = useNavigation()
 
@@ -18,25 +20,35 @@ export default function SplashScreen() {
   const getallSongDetails = async () => {
     let jsonValue = await AsyncStorage.getItem('@allsong')
     if (jsonValue != null) {
-      setAllSong(JSON.parse(jsonValue))
+      let songPlaying = await isSongPlaying()
+      if (songPlaying) {
+        setAllSong(JSON.parse(jsonValue))
+      } else {
+        pauseAllSong(JSON.parse(jsonValue))
+      }
     } else {
       setAllSong(song)
     }
   }
 
-
+  const pauseAllSong = (val) => {
+    let oldarr = val
+    let newArr = []
+    oldarr.map((item) => {
+      item.isPlaying = false
+      newArr.push(item)
+    })
+    setAllSong(newArr)
+  }
   const getLastSongDetails = async () => {
     let jsonValue = await AsyncStorage.getItem('@lastsong')
+    // console.log(jsonValue)
     if (jsonValue != null) {
       setLastSongDetails(JSON.parse(jsonValue))
     }
   }
-
   const getLastSongid = async () => {
     let value = await AsyncStorage.getItem('@lastsongSerialNo')
-
-    // console.log("id-----------", value)
-
     if (value != null) {
       setLastSongId(parseInt(value))
     }
@@ -46,6 +58,14 @@ export default function SplashScreen() {
     getLastSongDetails()
     getLastSongid()
   }, [])
+
+
+  const isSongPlaying = async () => {
+    let a = await SoundPlayer.getInfo()
+    // console.log(a)
+    return a == null ? false : true
+  }
+
 
   useEffect(() => {
     setTimeout(() => {

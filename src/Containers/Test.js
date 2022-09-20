@@ -57,7 +57,6 @@ export default function Test() {
         if (lastSongDetails.song == undefined) {
             setLastSongId(0)
             setLastSongDetails(song[0])
-
             storeLastSongid(0)
             storeLastSongDetails(song[0])
 
