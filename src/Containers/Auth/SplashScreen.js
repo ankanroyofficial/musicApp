@@ -9,7 +9,7 @@ import SoundPlayer from 'react-native-sound-player'
 
 export default function SplashScreen() {
 
-  const {allSong, setAllSong,
+  const { allSong, setAllSong,
     setLastSongDetails,
     setLastSongId
   } = useContext(myContaxt)
@@ -62,16 +62,36 @@ export default function SplashScreen() {
 
   const isSongPlaying = async () => {
     let a = await SoundPlayer.getInfo()
-    // console.log(a)
     return a == null ? false : true
   }
 
+  const delayOrNot = async () => {
+    let songPlaying = await isSongPlaying()
 
-  useEffect(() => {
+    console.log(songPlaying)
+
+    if (songPlaying) {
+      notDelay()
+    } else {
+      isDelay()
+    }
+  }
+
+  const notDelay = () => {
+    navigation.replace("home")
+  }
+
+  const isDelay = () => {
     setTimeout(() => {
       navigation.replace("home")
       // navigation.replace("Test")
     }, 3000)
+  }
+
+
+
+  useEffect(() => {
+    delayOrNot()
   }, [])
 
 

@@ -1,13 +1,15 @@
-import { View, Text, Pressable, Modal } from 'react-native'
+import { View, Text, Pressable, Modal, Image } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import SoundPlayer from 'react-native-sound-player'
 import { Normalize } from '../../helpers/Dimens'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';
 import { myContaxt } from '../../Constant/ContaxtPage';
 import { storeAllSong, storeLastSongid } from '../../AsyncStore/AsyncStorePage';
 import Header from '../../Components/Header';
+import { Colors } from '../../Constant/Colors';
 
 export default function MusicControlPage({ isPress, onpress, latestSong }) {
 
@@ -118,48 +120,58 @@ export default function MusicControlPage({ isPress, onpress, latestSong }) {
       animationType="slide"
       visible={isPress}
       onRequestClose={onpress}
-
+      style={{ flex: 1 }}
     >
-      <View style={{ flex: 1, backgroundColor: "#370066" }} >
-        <Header
-          title={latestSong.title}
-        />
-        <View style={{}} >
-          <Text style={{ color: "white" }} >{latestSong.title}</Text>
-          <Text style={{ color: "white" }} >{latestSong.artist}</Text>
+      <Header
+        title={latestSong.title}
+      />
+
+      <View style={{ flex: 1, backgroundColor: Colors.violet }} >
+        <View style={{ flex: 1, marginBottom: Normalize(70) }} >
+          <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.2)", margin: Normalize(30), borderRadius: Normalize(8), overflow: "hidden", justifyContent: "center", alignItems: "center" }} >
+            {
+              latestSong.image == "" || latestSong.image == undefined ?
+                <Ionicons name="image" color={Colors.white} size={65} /> :
+                <Image source={latestSong.image} style={{ height: "100%", width: "100%", resizeMode: "cover" }} />
+            }
+          </View>
+          <View>
+            <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row",marginBottom:Normalize(5) }} >
+              <AntDesign name="stepbackward" color={"white"} size={50} />
+              {
+                (!play) ?
+                  <Pressable
+                    onPress={playMusic}
+                    style={{ marginHorizontal: 20 }}
+                  >
+                    <AntDesign name="caretright" color={"white"} size={50} />
+                  </Pressable>
+                  :
+                  <Pressable
+                    onPress={pauseMusic}
+                    style={{ marginHorizontal: 20 }}
+                  >
+                    <FontAwesome name="pause" color={"white"} size={50} />
+                  </Pressable>
+              }
+              <AntDesign name="stepforward" color={"white"} size={50} />
+            </View>
+            <Slider
+              value={musicDetails.currentTime}
+              minimumValue={0}
+              maximumValue={duration}
+              onValueChange={(a) => { onvaluechange(a) }}
+              onSlidingStart={onslidingstart}
+              onSlidingComplete={(a) => { onslidingcomplete(a) }}
+            />
+            <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: Normalize(8) }}>
+              <Text style={{ fontSize: Normalize(13), fontFamily: "Outfit-Medium", color: "white" }}>{secondToMinutes(show_currentTime.currentTime)}</Text>
+              <Text style={{ fontSize: Normalize(13), fontFamily: "Outfit-Medium", color: "white" }}>{secondToMinutes(duration)}</Text>
+            </View>
+          </View>
         </View>
 
-        <View style={{ flex: 1 }} ></View>
 
-        <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row" }} >
-          <AntDesign name="stepbackward" color={"white"} size={50} />
-          {
-            (!play) ?
-              <Pressable
-                onPress={playMusic}
-                style={{ marginHorizontal: 20 }}
-              >
-                <AntDesign name="caretright" color={"white"} size={50} />
-              </Pressable>
-              :
-              <Pressable
-                onPress={pauseMusic}
-                style={{ marginHorizontal: 20 }}
-              >
-                <FontAwesome name="pause" color={"white"} size={50} />
-              </Pressable>
-          }
-          <AntDesign name="stepforward" color={"white"} size={50} />
-        </View>
-        <Slider
-          value={musicDetails.currentTime}
-          minimumValue={0}
-          maximumValue={duration}
-          onValueChange={(a) => { onvaluechange(a) }}
-          onSlidingStart={onslidingstart}
-          onSlidingComplete={(a) => { onslidingcomplete(a) }}
-        />
-        <Text style={{ fontSize: 20, color: "white" }}>{secondToMinutes(show_currentTime.currentTime)} / {secondToMinutes(duration)}</Text>
       </View>
     </Modal>
   )

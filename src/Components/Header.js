@@ -11,7 +11,7 @@ export default function Header({ title, back, notification, noOfNotification }) 
     const toStringConvert = (val) => {
         return val.toString()
     }
-
+    console.log(title)
     return (
         <View style={{ height: Normalize(50), backgroundColor: Colors.violet, flexDirection: "row" }} >
             <StatusBar backgroundColor={Colors.violet} barStyle={"light-content"} />
@@ -23,8 +23,9 @@ export default function Header({ title, back, notification, noOfNotification }) 
             </Pressable>
             <View style={styles.titleBox} >
                 {
-                    (title.length > 0 && title != undefined) &&
-                    <Text numberOfLines={1} style={{ fontSize: Normalize(14), color: Colors.white, fontFamily: "Outfit-Medium", letterSpacing: Normalize(1) }} >{title}</Text>}
+                    title != undefined && title.length > 0 &&
+                    <Text numberOfLines={1} style={{ fontSize: Normalize(14), color: Colors.white, fontFamily: "Outfit-Medium", letterSpacing: Normalize(1) }} >{title}</Text>
+                }
             </View>
             <Pressable
                 disabled={!notification}
