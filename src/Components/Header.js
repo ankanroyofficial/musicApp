@@ -11,7 +11,6 @@ export default function Header({ title, back, notification, noOfNotification }) 
     const toStringConvert = (val) => {
         return val.toString()
     }
-    console.log(title)
     return (
         <View style={{ height: Normalize(50), backgroundColor: Colors.violet, flexDirection: "row" }} >
             <StatusBar backgroundColor={Colors.violet} barStyle={"light-content"} />

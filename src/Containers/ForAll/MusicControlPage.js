@@ -7,10 +7,12 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';
 import { myContaxt } from '../../Constant/ContaxtPage';
-import { storeAllSong, storeLastSongid } from '../../AsyncStore/AsyncStorePage';
+import { storeAllSong, storeLastSongDetails, storeLastSongid } from '../../AsyncStore/AsyncStorePage';
 import Header from '../../Components/Header';
 import { Colors } from '../../Constant/Colors';
-
+import Toast from 'react-native-simple-toast';
+import { song } from '../../Constant/Constant';
+import { musicPlay, musicStop } from './MusicControlFunc';
 export default function MusicControlPage({ isPress, onpress, latestSong }) {
 
   const { allSong, setAllSong,
@@ -30,7 +32,6 @@ export default function MusicControlPage({ isPress, onpress, latestSong }) {
     setPlay(!play)
     onPressPlayPause(latestSong)
   }
-
   const onPressPlayPause = async (val) => {
     let prevArr = allSong
     let newArr = []
@@ -47,13 +48,6 @@ export default function MusicControlPage({ isPress, onpress, latestSong }) {
     storeAllSong(newArr)
     storeLastSongid(val.sl_id)
   }
-
-
-
-
-
-
-
   const getMusicData = async () => {
     try {
       const info = await SoundPlayer.getInfo()
@@ -114,6 +108,57 @@ export default function MusicControlPage({ isPress, onpress, latestSong }) {
   const onvaluechange = (val) => {
     setShow_currentTime({ "currentTime": val })
   }
+  const nextButton = () => {
+    let a = lastSongDetails.sl_id
+    let b = makeUpTheLastId(a + 1)
+    try {
+      if (b >= allSong.length) {
+        Toast.show("r nai")
+      } else {
+        // console.log(allSong[makeUpTheLastId(b)])
+        musicStop()
+        musicPlay(allSong[b].song)
+        storeSlID(allSong[b].sl_id)
+        storeLastsong(allSong[b])
+      }
+    } catch (error) {
+      console.log("nextbutton---", error)
+    }
+  }
+  const makeUpTheLastId = (val) => {
+    return val - 1;
+  }
+  const makeUpTheLastIdInPrev = (val) => {
+    return val - 2;
+  }
+  const prevButton = () => {
+    let a = lastSongDetails.sl_id
+    let b = makeUpTheLastIdInPrev(a)
+    console.log("a-----",a)
+    console.log("b-----",allSong[b].sl_id)
+    if (a == 1) {
+      Toast.show("r nai")
+    } else {
+    
+      // musicStop()
+      // musicPlay(allSong[b].song)
+      storeSlID(allSong[b].sl_id)
+      storeLastsong(allSong[b])
+    }
+  }
+  const storeSlID = (val) => {
+    setLastSongId(val)
+    storeLastSongid(val)
+  }
+  const storeSong = (val) => {
+    setAllSong(val)
+    storeAllSong(val)
+  }
+  const storeLastsong = (val) => {
+    storeLastSongDetails(val)
+    setLastSongDetails(val)
+  }
+
 
   return (
     <Modal
@@ -136,8 +181,12 @@ export default function MusicControlPage({ isPress, onpress, latestSong }) {
             }
           </View>
           <View>
-            <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row",marginBottom:Normalize(5) }} >
-              <AntDesign name="stepbackward" color={"white"} size={50} />
+            <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row", marginBottom: Normalize(5) }} >
+              <Pressable
+                onPress={prevButton}
+              ><AntDesign name="stepbackward" color={"white"} size={50} /></Pressable>
+
+
               {
                 (!play) ?
                   <Pressable
@@ -154,7 +203,9 @@ export default function MusicControlPage({ isPress, onpress, latestSong }) {
                     <FontAwesome name="pause" color={"white"} size={50} />
                   </Pressable>
               }
-              <AntDesign name="stepforward" color={"white"} size={50} />
+              <Pressable
+                onPress={nextButton}
+              ><AntDesign name="stepforward" color={"white"} size={50} /></Pressable>
             </View>
             <Slider
               value={musicDetails.currentTime}
