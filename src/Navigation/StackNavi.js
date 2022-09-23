@@ -6,6 +6,7 @@ import TabNavi from './TabNavi';
 import SplashScreen from '../Containers/Auth/SplashScreen';
 import ContaxtPage from '../Constant/ContaxtPage';
 import Test from '../Containers/Test';
+import Musiclist from '../Containers/MyMusic/Musiclist';
 const Stack = createNativeStackNavigator();
 export default function StackNavi() {
     return (
@@ -15,6 +16,8 @@ export default function StackNavi() {
                     screenOptions={{ headerShown: false }}
                 >
                     <Stack.Screen name="SplashScreen" component={SplashScreen} />
+                    <Stack.Screen name="Musiclist" component={Musiclist} />
+                    
                     <Stack.Screen name="Test" component={Test} />
                     <Stack.Screen name="home" component={TabNavi} />
                 </Stack.Navigator>

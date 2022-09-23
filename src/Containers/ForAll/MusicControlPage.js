@@ -113,7 +113,17 @@ export default function MusicControlPage({ isPress, onpress, latestSong }) {
     let b = makeUpTheLastId(a + 1)
     try {
       if (b >= allSong.length) {
-        Toast.show("r nai")
+        // Toast.show("r nai")
+
+        musicStop()
+        musicPlay(allSong[0].song)
+        storeSlID(allSong[0].sl_id)
+        storeLastsong(allSong[0])
+
+
+
+
+
       } else {
         // console.log(allSong[makeUpTheLastId(b)])
         musicStop()
@@ -134,14 +144,21 @@ export default function MusicControlPage({ isPress, onpress, latestSong }) {
   const prevButton = () => {
     let a = lastSongDetails.sl_id
     let b = makeUpTheLastIdInPrev(a)
-    console.log("a-----",a)
-    console.log("b-----",allSong[b].sl_id)
     if (a == 1) {
-      Toast.show("r nai")
+      // Toast.show("r nai")
+
+
+
+      musicStop()
+      musicPlay(allSong[makeUpTheLastId(allSong.length)].song)
+      storeSlID(allSong[makeUpTheLastId(allSong.length)].sl_id)
+      storeLastsong(allSong[makeUpTheLastId(allSong.length)])
+
+
+
     } else {
-    
-      // musicStop()
-      // musicPlay(allSong[b].song)
+      musicStop()
+      musicPlay(allSong[b].song)
       storeSlID(allSong[b].sl_id)
       storeLastsong(allSong[b])
     }
@@ -158,6 +175,14 @@ export default function MusicControlPage({ isPress, onpress, latestSong }) {
     storeLastSongDetails(val)
     setLastSongDetails(val)
   }
+
+
+
+   const changeisPlaying=async(val)=>{
+   }
+
+
+
 
 
   return (
@@ -183,8 +208,9 @@ export default function MusicControlPage({ isPress, onpress, latestSong }) {
           <View>
             <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row", marginBottom: Normalize(5) }} >
               <Pressable
+                // disabled={prevButtonDisable()}
                 onPress={prevButton}
-              ><AntDesign name="stepbackward" color={"white"} size={50} /></Pressable>
+              ><AntDesign name="stepbackward" color={Colors.white} size={50} /></Pressable>
 
 
               {
@@ -193,7 +219,7 @@ export default function MusicControlPage({ isPress, onpress, latestSong }) {
                     onPress={playMusic}
                     style={{ marginHorizontal: 20 }}
                   >
-                    <AntDesign name="caretright" color={"white"} size={50} />
+                    <AntDesign name="caretright" color={Colors.white} size={50} />
                   </Pressable>
                   :
                   <Pressable
@@ -204,8 +230,9 @@ export default function MusicControlPage({ isPress, onpress, latestSong }) {
                   </Pressable>
               }
               <Pressable
+                // disabled={nextButtonDisable()}
                 onPress={nextButton}
-              ><AntDesign name="stepforward" color={"white"} size={50} /></Pressable>
+              ><AntDesign name="stepforward" color={Colors.white} size={50} /></Pressable>
             </View>
             <Slider
               value={musicDetails.currentTime}

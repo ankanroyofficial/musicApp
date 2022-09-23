@@ -19,6 +19,10 @@ export default function SplashScreen() {
 
   const getallSongDetails = async () => {
     let jsonValue = await AsyncStorage.getItem('@allsong')
+    // console.log("async-----", JSON.parse(jsonValue))
+    console.log("song******",song[0].title)
+    // console.log("")
+
     if (jsonValue != null) {
       let songPlaying = await isSongPlaying()
       if (songPlaying) {
@@ -42,7 +46,6 @@ export default function SplashScreen() {
   }
   const getLastSongDetails = async () => {
     let jsonValue = await AsyncStorage.getItem('@lastsong')
-    // console.log(jsonValue)
     if (jsonValue != null) {
       setLastSongDetails(JSON.parse(jsonValue))
     }
@@ -68,7 +71,7 @@ export default function SplashScreen() {
   const delayOrNot = async () => {
     let songPlaying = await isSongPlaying()
 
-    console.log(songPlaying)
+    // console.log(songPlaying)
 
     if (songPlaying) {
       notDelay()
@@ -84,7 +87,7 @@ export default function SplashScreen() {
   const isDelay = () => {
     setTimeout(() => {
       navigation.replace("home")
-      // navigation.replace("Test")
+      // navigation.replace("Musiclist")
     }, 3000)
   }
 

@@ -8,22 +8,30 @@ import { Normalize } from '../helpers/Dimens';
 import { Colors } from '../Constant/Colors';
 import { images } from '../Constant/Images';
 import { myContaxt } from '../Constant/ContaxtPage';
-export default function SingleMusicCart({ details, onPressfav,onPressPlay }) {
+export default function SingleMusicCart({ details, onPressfav, onPressPlay }) {
     return (
         <View
             style={{ height: Normalize(36), width: "100%", flexDirection: "row", marginTop: Normalize(5) }} >
             <View style={{ height: "100%", width: Normalize(36), backgroundColor: Colors.lightViolet, justifyContent: "center", alignItems: "center", borderRadius: Normalize(5), overflow: "hidden" }} >
+                <Ionicons name="image" color={Colors.white} size={35} />
                 {
+                    (details.image != undefined || details.image != "") &&
+                    <View style={{ height: "100%", width: Normalize(36), position: "absolute" }} >
+                        <Image source={details.image} style={{ height: "100%", width: "100%", resizeMode: "cover" }} />
+                    </View>}
+
+                {/* {
                     details.image == undefined || details.image == "" ?
                         <Ionicons name="image" color={Colors.white} size={35} />
                         :
                         <Image source={details.image} style={{ height: "100%", width: "100%", resizeMode: "cover" }} />
-                }
+                } */}
+
             </View>
             <View style={{ flex: 1, paddingLeft: Normalize(8), paddingVertical: Normalize(5), flexDirection: "row" }} >
                 <Pressable
-                onPress={() => onPressPlay(details)}
-                style={{ flex: 1 }} >
+                    onPress={() => onPressPlay(details)}
+                    style={{ flex: 1 }} >
                     <Text numberOfLines={1} style={{ fontSize: Normalize(11), fontFamily: "Outfit-Medium", color: Colors.violet, letterSpacing: Normalize(1) }} >{details.title}</Text>
                     <View style={{ flexDirection: "row", alignItems: "center", marginTop: Normalize(3) }} >
                         <Octicons name="book" color={Colors.violet} size={12} />

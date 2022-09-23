@@ -38,7 +38,6 @@ export default function MyMusic() {
     storeSong(newArr)
     storeLastSongid(val.sl_id)
   }
-
   const onPressPlay1 = (val) => {
     storeLastsong(val)
     setLastSongId(val.sl_id)
@@ -86,22 +85,21 @@ export default function MyMusic() {
       onPressControlPage()
     }
   }
+
+
+  
   const storeSlID = (val) => {
     setLastSongId(val)
     storeLastSongid(val)
   }
-
   const storeSong = (val) => {
     setAllSong(val)
     storeAllSong(val)
   }
-
   const storeLastsong = (val) => {
     storeLastSongDetails(val)
     setLastSongDetails(val)
   }
-
-
   const whichFuncInlastSongCard = (item) => {
     if (item.isPlaying) {
       pauseonIcon(item)
@@ -109,12 +107,10 @@ export default function MyMusic() {
       playonIcon(item)
     }
   }
-
   const pauseonIcon = async (val) => {
     musicPause()
     pausePlayIconChange(val)
   }
-
   const playonIcon = async (val) => {
     // console.log(val.isPlaying)
     let a = await SoundPlayer.getInfo()
@@ -153,11 +149,12 @@ export default function MyMusic() {
         <View
           style={{ height: Normalize(36), width: "100%", flexDirection: "row" }} >
           <View style={{ height: "100%", width: Normalize(36), backgroundColor: Colors.lightViolet, justifyContent: "center", alignItems: "center", borderRadius: Normalize(5), overflow: "hidden" }} >
+            <Ionicons name="image" color={Colors.white} size={35} />
             {
-              image == undefined || image == "" ?
-                <Ionicons name="image" color={Colors.white} size={35} />
-                :
+              (image != undefined || image != "") &&
+              <View style={{ height: "100%", width: Normalize(36), position: "absolute" }} >
                 <Image source={image} style={{ height: "100%", width: "100%", resizeMode: "cover" }} />
+              </View>
             }
           </View>
           <View style={{ flex: 1, paddingLeft: Normalize(8), paddingVertical: Normalize(5), flexDirection: "row" }} >
@@ -199,13 +196,13 @@ export default function MyMusic() {
           data={allSong}
           renderItem={({ item, index }) => {
             return (
-                <SingleMusicCart
-                  details={item}
-                  onPressfav={addRemoveFavList}
-                  onPressPlay={onPressPlay}
-                  forControlPage={onPressControlPage}
-                  iscontrolPage={isControlPage}
-                />
+              <SingleMusicCart
+                details={item}
+                onPressfav={addRemoveFavList}
+                onPressPlay={onPressPlay}
+                forControlPage={onPressControlPage}
+                iscontrolPage={isControlPage}
+              />
             )
           }}
         />
@@ -238,4 +235,3 @@ export default function MyMusic() {
     </View>
   )
 }
-
