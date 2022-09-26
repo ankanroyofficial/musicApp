@@ -15,6 +15,6 @@ export const musicStop = () => {
 export const musicPlay = (val) => {
     SoundPlayer.playSoundFile(val,"mp3")
 }
-export const aaaa = (val) => {
-   console.log(val)
+export const aaaa = (val2) => {
+   console.log(val2)
 }
